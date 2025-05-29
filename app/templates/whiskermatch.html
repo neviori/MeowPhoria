@@ -1,3 +1,5 @@
+<!-- WhiskerMatch -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +8,23 @@
     <title>WhiskerMatch!</title>
     <link href="https://fonts.googleapis.com/css2?family=Pixel+Font&display=swap" rel="stylesheet">
     <style>
+        .app-header {
+            position: fixed; /* tempel di atas */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #3d1a57; /* ungu tua */
+            color: #ffae42; /* oranye */
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .highlight {
+            color: orange;
+        }
         body {
             font-family: 'Pixel Font', cursive;
             background-color: #f5e9e5;
@@ -20,12 +39,41 @@
             color: #6e5b9f;
             margin-bottom: 20px;
         }
-        .cat-image {
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #faece9;
+        }
+
+        .header {
+        background-color: #3d1a57; /* warna ungu */
+        padding: 15px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #ffae42; /* warna oranye untuk teks */
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Courier New', monospace;
+        }
+
+        .highlight {
+        color: orange;
+        }
+
+        #animation-container { /* Style for the animation container */
             width: 200px;
             height: auto;
             margin-bottom: 20px;
         }
-        /* Secara default, SEMUA pertanyaan disembunyikan */
+        #animation-container img {
+            width: 100%;
+            height: auto;
+            display: none; /* Hide all images initially */
+        }
+        #animation-container img.active {
+            display: block;
+        }
         .question-container {
             display: none;
             flex-direction: column;
@@ -42,6 +90,14 @@
             font-size: 16px;
             line-height: 1.5;
             text-align: center;
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: column; /* Mengubah tombol menjadi vertikal */
+            justify-content: center;
+            gap: 3px; /* Jarak antar tombol */
+            width: 100%;
+            max-width: 300px; /* Lebar maksimum untuk tombol */
         }
         .button {
             background-color: #c4a3b5;
@@ -65,82 +121,117 @@
 <body>
 &nbsp;
 &nbsp;
-
+    <header class="app-header">
+        <h1><span class="highlight">Whisker</span>Match!</h1>
+    </header>
     <div class="main-container"></div>
         <h1>WhiskerMatch!</h1>
-        <img src="{{ url_for('static', filename='img/walkcat1.png') }}" alt="Pixel Cat" class="cat-image">
+        <div id="animation-container">
+            <img src="{{ url_for('static', filename='img/pixil-layer-0.png') }}" alt="Animation Frame 1">
+            <img src="{{ url_for('static', filename='img/pixil-layer-1.png') }}" alt="Animation Frame 2">
+            <img src="{{ url_for('static', filename='img/pixil-layer-2.png') }}" alt="Animation Frame 3">
+            <img src="{{ url_for('static', filename='img/pixil-layer-3.png') }}" alt="Animation Frame 4">
+        </div>
         <!-- question 1 -->
-        <div class="question">Bagaimana lingkungan tempat tinggamu?</div>
-        <button class="button">Ramai</button>
-        <button class="button">Tenang</button>
-
-        <div id="q2" class="question-container">
+        <div class="question-container active">
+            <div class="question">Bagaimana lingkungan tempat tinggamu?</div>
+            <div class="buttons-container">
+                <button class="button">Ramai</button>
+                <button class="button">Tenang</button>
+            </div>
+        </div>
+        <div class="question-container">
             <div class="question">Berapa banyak waktu luang yang kamu miliki untuk bermain setiap hari?</div>
             <div class="buttons-container">
-                <button class="button" data-answer="Banyak">Banyak</button>
-                <button class="button" data-answer="Sedikit">Sedikit</button>
+                <button class="button">Banyak</button>
+                <button class="button">Sedikit</button>
             </div>
         </div>
-
-        <div id="q3" class="question-container">
+        <div class="question-container">
             <div class="question">Apakah kamu punya pengalaman merawat kucing sebelumnya?</div>
             <div class="buttons-container">
-                <button class="button" data-answer="Punya">Punya</button>
-                <button class="button" data-answer="Belum">Belum</button>
+                <button class="button">Punya</button>
+                <button class="button">Belum</button>
             </div>
         </div>
-
-        <div id="q4" class="question-container">
+        <div class="question-container">
             <div class="question">Apakah ada anak kecil atau hewan peliharaan lain di rumah?</div>
             <div class="buttons-container">
-                <button class="button" data-answer="Ada">Ada</button>
-                <button class="button" data-answer="Tidak Ada">Tidak Ada</button>
+                <button class="button">Ada</button>
+                <button class="button">Tidak Ada</button>
             </div>
         </div>
-
-        <div id="q5" class="question-container">
+        <div class="question-container">
             <div class="question">Apa yang kamu cari dari seekor kucing?</div>
             <div class="buttons-container">
-                <button class="button" data-answer="Teman Bermain Aktif">Teman Aktif</button>
-                <button class="button" data-answer="Sahabat Tenang">Sahabat Tenang</button>
+                <button class="button">Teman Aktif</button>
+                <button class="button">Sahabat Tenang</button>
             </div>
         </div>
-
-        <div id="results-message" class="question-container">
+        <div class="question-container">
             <div class="question">Terima kasih! Kami sedang mencarikan kucing yang cocok untukmu...</div>
-    </div>
+        </div>
+        </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Ambil semua elemen yang kita butuhkan
+            const animationContainer = document.getElementById('animation-container');
+            const frames = animationContainer.querySelectorAll('img');
+            let currentFrame = 0;
+            const animationSpeed = 150;
+
+            function animate() {
+                frames.forEach(frame => frame.classList.remove('active'));
+                currentFrame = (currentFrame + 1) % frames.length;
+                frames.item(currentFrame).classList.add('active');
+                setTimeout(animate, animationSpeed);
+            }
+
+            if (frames.length > 0) {
+                frames.item(0).classList.add('active');
+                setTimeout(animate, animationSpeed);
+            }
+
             const questions = document.querySelectorAll('.question-container');
-            const allButtons = document.querySelectorAll('.button');
-            
-            // Variabel untuk melacak pertanyaan mana yang sedang aktif
+            const userAnswers = [];
             let currentQuestionIndex = 0;
 
-            // Loop melalui setiap tombol dan berikan fungsi saat diklik
-            allButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Cek dulu apakah masih ada pertanyaan untuk ditampilkan
-                    // (Ini mencegah error jika tombol di pertanyaan terakhir diklik)
-                    if (currentQuestionIndex < questions.length) {
-                        
-                        // 1. Sembunyikan pertanyaan yang sedang aktif
-                        const currentQuestion = questions[currentQuestionIndex];
-                        currentQuestion.classList.remove('active');
-
-                        // 2. Pindah ke indeks pertanyaan selanjutnya
-                        currentQuestionIndex++;
-
-                        // 3. Jika masih ada pertanyaan berikutnya, tampilkan
-                        if (currentQuestionIndex < questions.length) {
-                            const nextQuestion = questions[currentQuestionIndex];
-                            nextQuestion.classList.add('active');
-                        }
-                    }
+            function showQuestion(index) {
+                questions.forEach(q => {
+                    q.classList.remove('active');
                 });
-            });
+
+                if (index >= questions.length) {
+                    console.log('Kuis Selesai. Jawaban akhir:', userAnswers);
+                    // Anda bisa menambahkan logika lain di sini, misal: mengirim data ke server
+                    return;
+                }
+
+                // Tampilkan pertanyaan yang sekarang
+                const currentQuestion = questions[index];
+                currentQuestion.classList.add('active');
+
+                // Ambil tombol HANYA dari pertanyaan yang sedang aktif
+                const buttons = currentQuestion.querySelectorAll('.button');
+
+                // Beri fungsi ke setiap tombol
+                buttons.forEach(button => {
+                    // Opsi { once: true } SANGAT PENTING.
+                    // Ini membuat tombol hanya bisa diklik satu kali, mencegah bug.
+                    button.addEventListener('click', (event) => {
+                        // Simpan jawaban
+                        const questionText = currentQuestion.querySelector('.question').innerText;
+                        const answerText = event.target.innerText;
+                        userAnswers.push({ question: questionText, answer: answerText });
+
+                        // Panggil fungsi lagi untuk menampilkan pertanyaan berikutnya
+                        showQuestion(index + 1);
+                    }, { once: true });
+                });
+            }
+
+            showQuestion(0);
         });
     </script>
 
