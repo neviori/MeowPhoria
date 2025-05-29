@@ -17,11 +17,11 @@ def home():
     return render_template('home.html')
 
 # Halaman utama
-# @app.route('/')
-# def index():
-#     if 'username' in session:
-#         return render_template('whiskermatch.html')
-#     return redirect(url_for('auth_login'))
+@app.route('/')
+def index():
+     if 'username' in session:
+         return render_template('home.html')
+     return redirect(url_for('auth_login'))
 
 # Login dummy (admin only)
 @app.route('/login', methods=['GET', 'POST'])

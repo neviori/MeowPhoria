@@ -18,6 +18,6 @@ def about():
 def adopt():
     return render_template("adopt.html")
 
-@main.route("/")
+@main.route("/whishkermatch")
 def whiskermatch():
     return render_template("whiskermatch.html")
