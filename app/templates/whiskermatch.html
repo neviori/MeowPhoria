@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhiskerMatch!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pixel+Font&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Pixel Font', cursive;
+            background-color: #f5e9e5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #6e5b9f;
+            margin-bottom: 20px;
+        }
+        .cat-image {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        /* Secara default, SEMUA pertanyaan disembunyikan */
+        .question-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px; /* Jarak antar pertanyaan */
+        }
+        /* HANYA pertanyaan dengan kelas .active yang akan TAMPIL */
+        .question-container.active {
+            display: flex;
+        }
+        .question {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .button {
+            background-color: #c4a3b5;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #a56e92;
+        }
+    </style>
+</head>
+<body>
+&nbsp;
+&nbsp;
+
+    <div class="main-container"></div>
+        <h1>WhiskerMatch!</h1>
+        <img src="{{ url_for('static', filename='img/walkcat1.png') }}" alt="Pixel Cat" class="cat-image">
+        <!-- question 1 -->
+        <div class="question">Bagaimana lingkungan tempat tinggamu?</div>
+        <button class="button">Ramai</button>
+        <button class="button">Tenang</button>
+
+        <div id="q2" class="question-container">
+            <div class="question">Berapa banyak waktu luang yang kamu miliki untuk bermain setiap hari?</div>
+            <div class="buttons-container">
+                <button class="button" data-answer="Banyak">Banyak</button>
+                <button class="button" data-answer="Sedikit">Sedikit</button>
+            </div>
+        </div>
+
+        <div id="q3" class="question-container">
+            <div class="question">Apakah kamu punya pengalaman merawat kucing sebelumnya?</div>
+            <div class="buttons-container">
+                <button class="button" data-answer="Punya">Punya</button>
+                <button class="button" data-answer="Belum">Belum</button>
+            </div>
+        </div>
+
+        <div id="q4" class="question-container">
+            <div class="question">Apakah ada anak kecil atau hewan peliharaan lain di rumah?</div>
+            <div class="buttons-container">
+                <button class="button" data-answer="Ada">Ada</button>
+                <button class="button" data-answer="Tidak Ada">Tidak Ada</button>
+            </div>
+        </div>
+
+        <div id="q5" class="question-container">
+            <div class="question">Apa yang kamu cari dari seekor kucing?</div>
+            <div class="buttons-container">
+                <button class="button" data-answer="Teman Bermain Aktif">Teman Aktif</button>
+                <button class="button" data-answer="Sahabat Tenang">Sahabat Tenang</button>
+            </div>
+        </div>
+
+        <div id="results-message" class="question-container">
+            <div class="question">Terima kasih! Kami sedang mencarikan kucing yang cocok untukmu...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ambil semua elemen yang kita butuhkan
+            const questions = document.querySelectorAll('.question-container');
+            const allButtons = document.querySelectorAll('.button');
+            
+            // Variabel untuk melacak pertanyaan mana yang sedang aktif
+            let currentQuestionIndex = 0;
+
+            // Loop melalui setiap tombol dan berikan fungsi saat diklik
+            allButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Cek dulu apakah masih ada pertanyaan untuk ditampilkan
+                    // (Ini mencegah error jika tombol di pertanyaan terakhir diklik)
+                    if (currentQuestionIndex < questions.length) {
+                        
+                        // 1. Sembunyikan pertanyaan yang sedang aktif
+                        const currentQuestion = questions[currentQuestionIndex];
+                        currentQuestion.classList.remove('active');
+
+                        // 2. Pindah ke indeks pertanyaan selanjutnya
+                        currentQuestionIndex++;
+
+                        // 3. Jika masih ada pertanyaan berikutnya, tampilkan
+                        if (currentQuestionIndex < questions.length) {
+                            const nextQuestion = questions[currentQuestionIndex];
+                            nextQuestion.classList.add('active');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
