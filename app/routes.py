@@ -14,10 +14,13 @@ def gallery():
 def about():
     return render_template("about.html")
 
-@main.route("/adopt")
+@main.route("/adopsi")
 def adopt():
-    return render_template("adopt.html")
+    return render_template("adopsi.html")
+@main.route("/konfirmasi")
+def adopt():
+    return render_template("konfirmasi.html")
 
-@main.route("/")
+@main.route("/whiskermatch")
 def whiskermatch():
     return render_template("whiskermatch.html")
