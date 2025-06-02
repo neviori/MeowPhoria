@@ -14,6 +14,16 @@ users = {}
 def index():
     # if 'username' in session:
         return render_template('home.html')
+# Home page
+# @app.route('/home')
+# def home():
+#     return render_template('home.html')
+
+# Halaman utama
+@app.route('/adopsi') 
+def index():
+    # if 'username' in session:
+        return render_template('adopsi.html')
     # return redirect(url_for('main.home'))
 
 # Login dummy (admin only)
@@ -109,12 +119,12 @@ def konfirmasi_adopsi():
     nama_pengadopsi = request.form.get('nama_pengadopsi')
     alamat_pengadopsi = request.form.get('alamat_pengadopsi')
     kontak_pengadopsi = request.form.get('kontak_pengadopsi')
-
     print(f"Pengajuan adopsi untuk {nama_kucing} oleh {nama_pengadopsi}")
     print(f"Alamat: {alamat_pengadopsi}, Kontak: {kontak_pengadopsi}")
 
     flash(f'Pengajuan adopsi untuk {nama_kucing} berhasil diajukan!', 'success')
     return redirect(url_for('index'))
+
 # Jalankan aplikasi
 if __name__ == '__main__':
     app.run(debug=True)

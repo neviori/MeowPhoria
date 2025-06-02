@@ -17,6 +17,7 @@ def about():
 @main.route("/adopsi")
 def adopt():
     return render_template("adopsi.html")
+
 @main.route("/konfirmasi")
 def adopt():
     return render_template("konfirmasi.html")
