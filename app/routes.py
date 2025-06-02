@@ -2,8 +2,8 @@ from flask import Blueprint, render_template
 
 main = Blueprint("main", __name__)
 
-@main.route('/home')
-def home():
+@main.route('/')
+def home_page():
     return render_template('home.html')
 
 @main.route("/gallery")
@@ -18,6 +18,6 @@ def about():
 def adopt():
     return render_template("adopt.html")
 
-@main.route("/")
+@main.route("/whiskermatch")
 def whiskermatch():
     return render_template("whiskermatch.html")
