@@ -29,7 +29,9 @@ users = {}
 # Halaman utama
 @app.route('/')
 def index():
-    return render_template('home.html')
+     if 'username' in session:
+         return render_template('home.html')
+     return redirect(url_for('auth_login'))
 
 # Login dummy (admin only)
 @app.route('/login', methods=['GET', 'POST'])
