@@ -6,13 +6,13 @@ main = Blueprint("main", __name__)
 def home():
     return render_template('home.html')
 
-@main.route("/gallery")
+@main.route("/Perawatan")
 def gallery():
-    return render_template("gallery.html")
+    return render_template("perawatan.html")
 
-@main.route("/about")
+@main.route("/booking")
 def about():
-    return render_template("about.html")
+    return render_template("booking.html")
 
 @main.route("/adopt")
 def adopt():
