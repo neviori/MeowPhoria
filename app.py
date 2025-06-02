@@ -69,6 +69,18 @@ def register():
             flash('Akun berhasil dibuat! Silakan login ya, meow 😸', 'info')
             return redirect(url_for('auth_login'))
     return render_template('register.html')
+#whisker match 
+@app.route('/WhiskerMatch')
+@app.route('/whiskermatch')
+def whisker_match():
+    return render_template('whiskermatch.html')
+
+@app.route('/perawatan')
+def perawatan():
+    return render_template('perawatan.html')
+@app.route('/booking')
+def booking():
+    return render_template('booking.html')
 
 # Whisker Match page
 @app.route('/whiskermatch', methods=['GET', 'POST'])
