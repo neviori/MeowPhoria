@@ -17,6 +17,9 @@ def about():
 @main.route("/adopt")
 def adopt():
     return render_template("adopt.html")
+@main.route("/konfirmasi")
+def adopt():
+    return render_template("konfirmasi.html")
 
 @main.route("/")
 def whiskermatch():

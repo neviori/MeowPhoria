@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meowphoria - Adopsi Kucing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="min-h-screen bg-cover bg-center bg-fixed"
+    style="background-image: url('https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1350&q=80');"
+  >
+    <div class="backdrop-blur-md bg-white/80 p-8 rounded-xl m-4 shadow-lg">
+      <h1 class="text-4xl font-bold text-center text-pink-600 mb-8">
+        Meowphoria - Adopsi Kucing
+      </h1>
+
+      <div class="flex flex-col lg:flex-row gap-6 justify-center">
+        <!-- Kartu 1 -->
+        <div class="bg-white rounded-2xl shadow-md p-4 w-full max-w-xs">
+            <img src="{{ url_for('static', filename='img/gambar 1.jpg') }}"
+            alt="Luna"
+            class="w-full h-48 object-cover rounded-xl mb-4"
+          />
+          <h2 class="text-xl font-semibold text-pink-700">Luna</h2>
+          <p class="text-gray-600">Usia: 2 tahun</p>
+          <p class="text-gray-600">Ras: Persia</p>
+          <p class="text-gray-500 text-sm mt-1">
+            Deskripsi: Kucing manja dan suka dipeluk. Cocok untuk keluarga dengan anak-anak.
+          </p>
+          <form action="{{ url_for('ajukan_adopsi', nama_kucing='Luna') }}" method="GET">
+            <button
+              class="mt-4 w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-xl"
+            >
+              Ajukan Adopsi
+            </button>
+        </div>
+
+        <!-- Kartu 2 -->
+        <div class="bg-white rounded-2xl shadow-md p-4 w-full max-w-xs">
+          <img src="{{ url_for('static', filename='img/gambar 2.jpg') }}"
+            alt="Milo"
+            class="w-full h-48 object-cover rounded-xl mb-4"
+          />
+          <h2 class="text-xl font-semibold text-pink-700">Milo</h2>
+          <p class="text-gray-600">Usia: 1 tahun</p>
+          <p class="text-gray-600">Ras: Anggora</p>
+          <p class="text-gray-500 text-sm mt-1">
+            Deskripsi: Aktif dan suka bermain. Membutuhkan ruang luas untuk eksplorasi.
+          </p>
+          <form action="{{ url_for('ajukan_adopsi', nama_kucing='Milo') }}" method="GET">
+            <button
+              class="mt-4 w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-xl"
+            >
+              Ajukan Adopsi
+            </button>
+          </form>
+        </div>
+
+        <!-- Kartu 3 -->
+        <div class="bg-white rounded-2xl shadow-md p-4 w-full max-w-xs">
+           <img src="{{ url_for('static', filename='img/gambar 3.jpg') }}"
+            alt="Leo"
+            class="w-full h-48 object-cover rounded-xl mb-4"
+          />
+          <h2 class="text-xl font-semibold text-pink-700">Leo</h2>
+          <p class="text-gray-600">Usia: 3 tahun</p>
+          <p class="text-gray-600">Ras: Maine Coon</p>
+          <p class="text-gray-500 text-sm mt-1">
+            Deskripsi: Tenang dan penyayang. Sering tidur siang dan senang disisir bulunya.
+          </p>
+         <form action="{{ url_for('ajukan_adopsi', nama_kucing='Leo') }}" method="GET">
+           <button
+            class="mt-4 w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-xl"
+          >
+            Ajukan Adopsi
+          </button>
+         </form>
+        </div>
+
+        <!-- Kartu 4 -->
+        <div class="bg-white rounded-2xl shadow-md p-4 w-full max-w-xs">
+          <img src="{{ url_for('static', filename='img/gambar 4.jpg') }}"
+            alt="Bella"
+            class="w-full h-48 object-cover rounded-xl mb-4"
+          />
+          <h2 class="text-xl font-semibold text-pink-700">Bella</h2>
+          <p class="text-gray-600">Usia: 4 bulan</p>
+          <p class="text-gray-600">Ras: Kampung</p>
+          <p class="text-gray-500 text-sm mt-1">
+            Deskripsi: Ceria dan lincah. Sangat ramah dengan manusia maupun hewan lain.
+          </p>
+
+<form action="{{ url_for('ajukan_adopsi', nama_kucing='Bella') }}" method="GET">
+  <form action="{{ url_for('ajukan_adopsi', nama_kucing='Bella') }}" method="GET">
+    <button
+        class="mt-4 w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-xl"
+        type="submit"
+    >
+        Ajukan Adopsi
+    </button>
+</form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
