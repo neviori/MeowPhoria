@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Booking Perawatan Kucing - Meowphoria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #f6e5e5;
+      color: #4e3c4d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+
+    h2 {
+      font-family: 'Oregano', cursive;
+      text-align: center;
+      font-size: 200%;
+      color: #4e3c4d;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 80%;
+      padding: 8px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    select:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    .service-section {
+      margin-top: 15px;
+      padding: 12px;
+      border: 1px solid #d1d1d1;
+      border-left: 4px solid #755068;
+      background: #f0f8ff;
+      border-radius: 6px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #755068;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #755068;
+    }
+
+    .summary {
+      margin-top: 20px;
+      padding: 16px;
+      background: #ecf7ff;
+      border-left: 4px solid #755068;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .summary h3 {
+      color: #2c3e50;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    .checkbox-label {
+      margin-top: 8px;
+      display: block;
+    }
+
+    #lihatAntrianBtn {
+      background-color: #755068;
+    }
+
+    #lihatAntrianBtn:hover {
+      background-color: #755068;
+    }
+
+    ::placeholder {
+      font-style: italic;
+      color: #999;
+    }
+
+    
+  </style>
+</head>
+<body>
+
+<a href="perawatan.html" style="display:inline-block; margin-top:30px; padding:10px 20px; background-color:#755068; color:white; text-decoration:none; border-radius:30px;">
+    ←
+</a>
+
+
+  <h2>Booking Perawatan Kucing - Meowphoria</h2>
+  <link href="https://fonts.googleapis.com/css2?family=Oregano&display=swap" rel="stylesheet">
+
+  <form id="bookingForm" action="/booking" method="POST">
+
+    <label for="customerName">Nama Pelanggan:</label>
+    <input type="text" id="customerName" required />
+
+    <label for="catName">Nama Kucing:</label>
+    <input type="text" id="catName" required />
+
+    <label for="catBreed">Ras Kucing:</label>
+    <input type="text" id="catBreed" required />
+
+    <label for="catAge">Umur Kucing (tahun):</label>
+    <input type="number" id="catAge" min="0" step="0.1" required />
+
+    <label for="bookingDate">Tanggal Booking:</label>
+    <input type="date" id="bookingDate" required />
+
+    <label>Layanan Perawatan (pilih satu atau lebih):</label>
+    <label><input type="checkbox" class="serviceCheckbox" value="grooming" /> Grooming</label>
+    <label><input type="checkbox" class="serviceCheckbox" value="vaksin" /> Vaksin</label>
+    <label><input type="checkbox" class="serviceCheckbox" value="penitipan" /> Penitipan</label>
+
+    <!-- Paket dropdowns, tampil jika layanan dipilih -->
+    <div id="groomingSection" class="service-section hidden">
+      <label for="groomingPackage">Paket Grooming:</label>
+      <select id="groomingPackage">
+        <option value="Paket Basic">Paket Basic</option>
+        <option value="Paket Premium">Paket Premium</option>
+        <option value="Paket Styling">Paket Styling</option>
+      </select>
+    </div>
+
+    <div id="vaksinSection" class="service-section hidden">
+      <label for="vaksinPackage">Paket Vaksin:</label>
+      <select id="vaksinPackage">
+        <option value="Vaksin Colostrum">Vaksin Colostrum</option>
+        <option value="Vaksin Neonatal">Vaksin Neonatal</option>
+        <option value="Vaksin Tricat">Vaksin Tricat</option>
+        <option value="Vaksin Tetracat">Vaksin Tetracat</option>
+        <option value="Vaksin Rabies">Vaksin Rabies</option>
+      </select>
+    </div>
+
+    <div id="penitipanSection" class="service-section hidden">
+      <label for="penitipanPackage">Paket Penitipan:</label>
+      <select id="penitipanPackage">
+        <option value="" disabled selected>Pilih Paket Penitipan</option>
+        <option value="Penitipan Harian">Penitipan Harian</option>
+        <option value="Penitipan Mingguan">Penitipan Mingguan</option>
+        <option value="Penitipan Bulanan">Penitipan Bulanan</option>
+      </select>
+
+      <div id="durationInput" class="hidden" style="margin-top:10px;">
+        <!-- Input dinamis muncul di sini -->
+      </div>
+    </div>
+
+    <button type="submit">Booking</button>
+  </form>
+
+  <div id="bookingSummary" class="summary hidden"></div>
+
+  <script>
+    const bookings = [];
+
+    const serviceCheckboxes = document.querySelectorAll('.serviceCheckbox');
+
+    function toggleServiceSections() {
+      document.getElementById('groomingSection').classList.toggle('hidden', !document.querySelector('input[value="grooming"]').checked);
+      document.getElementById('vaksinSection').classList.toggle('hidden', !document.querySelector('input[value="vaksin"]').checked);
+      const penitipanChecked = document.querySelector('input[value="penitipan"]').checked;
+      document.getElementById('penitipanSection').classList.toggle('hidden', !penitipanChecked);
+
+      if (!penitipanChecked) {
+        hideDurationInput();
+      }
+    }
+
+    serviceCheckboxes.forEach(chk => {
+      chk.addEventListener('change', toggleServiceSections);
+    });
+
+    // Tangani perubahan paket penitipan untuk muncul input durasi
+    const penitipanPackageSelect = document.getElementById('penitipanPackage');
+    const durationInputDiv = document.getElementById('durationInput');
+
+    penitipanPackageSelect.addEventListener('change', function() {
+      const val = this.value;
+      if (val === "Penitipan Harian") {
+        showDurationInput('Berapa hari?', 'daysInput');
+      } else if (val === "Penitipan Mingguan") {
+        showDurationInput('Berapa minggu?', 'weeksInput');
+      } else if (val === "Penitipan Bulanan") {
+        showDurationInput('Berapa bulan?', 'monthsInput');
+      } else {
+        hideDurationInput();
+      }
+    });
+
+    function showDurationInput(labelText, inputId) {
+      durationInputDiv.innerHTML = `
+        <label for="${inputId}">${labelText}</label>
+        <input type="number" id="${inputId}" min="1" required />
+      `;
+      durationInputDiv.classList.remove('hidden');
+    }
+
+    function hideDurationInput() {
+      durationInputDiv.innerHTML = '';
+      durationInputDiv.classList.add('hidden');
+      penitipanPackageSelect.value = '';
+    }
+
+    const bookingForm = document.getElementById('bookingForm');
+    const bookingSummary = document.getElementById('bookingSummary');
+
+    bookingForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('customerName').value.trim();
+      const catName = document.getElementById('catName').value.trim();
+      const catBreed = document.getElementById('catBreed').value.trim();
+      const catAge = parseFloat(document.getElementById('catAge').value);
+      const date = document.getElementById('bookingDate').value;
+      const selectedServices = [...serviceCheckboxes].filter(chk => chk.checked).map(chk => chk.value);
+
+      if (!name) {
+        alert('Nama pelanggan harus diisi.');
+        return;
+      }
+      if (!catName) {
+        alert('Nama kucing harus diisi.');
+        return;
+      }
+      if (!catBreed) {
+        alert('Ras kucing harus diisi.');
+        return;
+      }
+      if (isNaN(catAge) || catAge < 0) {
+        alert('Umur kucing harus diisi dengan angka valid.');
+        return;
+      }
+      if (!date) {
+        alert('Tanggal booking harus diisi.');
+        return;
+      }
+      if (selectedServices.length === 0) {
+        alert('Pilih minimal satu layanan.');
+        return;
+      }
+
+      // Ambil paket per layanan yang dipilih
+      const servicePackages = {};
+
+      if (selectedServices.includes('grooming')) {
+        servicePackages['Grooming'] = document.getElementById('groomingPackage').value;
+      }
+      if (selectedServices.includes('vaksin')) {
+        servicePackages['Vaksin'] = document.getElementById('vaksinPackage').value;
+      }
+      if (selectedServices.includes('penitipan')) {
+        const paketPenitipan = penitipanPackageSelect.value;
+        if (!paketPenitipan) {
+          alert('Pilih paket penitipan.');
+          return;
+        }
+        // Ambil durasi sesuai paket
+        let durasiLabel = '';
+        let durasiValue = null;
+
+        if (paketPenitipan === 'Penitipan Harian') {
+          durasiValue = parseInt(document.getElementById('daysInput')?.value);
+          durasiLabel = 'hari';
+        } else if (paketPenitipan === 'Penitipan Mingguan') {
+          durasiValue = parseInt(document.getElementById('weeksInput')?.value);
+          durasiLabel = 'minggu';
+        } else if (paketPenitipan === 'Penitipan Bulanan') {
+          durasiValue = parseInt(document.getElementById('monthsInput')?.value);
+          durasiLabel = 'bulan';
+        }
+
+        if (!durasiValue || durasiValue <= 0 || isNaN(durasiValue)) {
+          alert(`Masukkan jumlah ${durasiLabel} untuk paket penitipan.`);
+          return;
+        }
+
+        servicePackages['Penitipan'] = `${paketPenitipan} - Lama: ${durasiValue} ${durasiLabel}`;
+      }
+
+      // Buat nomor antrian berdasarkan jumlah booking saat ini + 1
+      const bookingsForDate = bookings.filter(b => b.date === date);
+      const queueNumber = bookingsForDate.length + 1;
+
+
+      // Simpan booking ke array
+      const newBooking = {
+        name,
+        catName,
+        catBreed,
+        catAge,
+        date,
+        services: servicePackages,
+        queueNumber,
+        bookingTimestamp: new Date().toLocaleString()
+      };
+
+       bookings.push(newBooking);
+
+      // Tampilkan ringkasan booking
+      let summaryHTML = `<h3>STRUK BOOKING</h3>`;
+      summaryHTML += `<p><strong>Nama Pelanggan:</strong> ${name}</p>`;
+      summaryHTML += `<p><strong>Nama Kucing:</strong> ${catName}</p>`;
+      summaryHTML += `<p><strong>Ras Kucing:</strong> ${catBreed}</p>`;
+      summaryHTML += `<p><strong>Umur Kucing:</strong> ${catAge} tahun</p>`;
+      summaryHTML += `<p><strong>Tanggal Booking:</strong> ${date}</p>`;
+      summaryHTML += `<p><strong>Nomor Antrian:</strong> ${queueNumber}</p>`;
+      summaryHTML += `<p><strong>Waktu Booking:</strong> ${bookings[bookings.length - 1].bookingTimestamp}</p>`;
+      summaryHTML += `<p><strong>Layanan dan Paket:</strong></p><ul>`;
+      
+      for (const [service, paket] of Object.entries(servicePackages)) {
+        summaryHTML += `<li>${service}: ${paket}</li>`;
+
+       summaryHTML += `</ul>`;
+      summaryHTML += `<p><em>MOHON TUNJUKKAN STRUK BOOKING SAAT PEMBAYARAN</em></p>`;
+      }
+      summaryHTML += `</ul>`;
+
+      bookingSummary.innerHTML = summaryHTML;
+      bookingSummary.classList.remove('hidden');
+
+      // Reset form
+      bookingForm.reset();
+      toggleServiceSections();
+      hideDurationInput();
+    });
+
+    // Inisialisasi tampilan paket hidden di awal
+    toggleServiceSections();
+
+    document.getElementById('lihatAntrianBtn').addEventListener('click', () => {
+    // Buka halaman lihat_antrian.html di tab baru
+    window.open('antrian.html', '_blank');
+  });
+
+  // Inisialisasi tampilan paket hidden di awal
+  toggleServiceSections();
+  </script>
+
+</body>
+</html>
