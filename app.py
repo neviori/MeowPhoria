@@ -162,6 +162,60 @@ def whisker_match():
         })
     return render_template('whiskermatch.html')
 
+@app.route('/ajukan_adopsi')
+def ajukan_adopsi():
+    nama_kucing = request.args.get('nama_kucing')
+
+    # contoh data dummy, bisa juga diimpor dari file
+    kucing_dict = {
+        "Luna": {
+            "usia": "26 bulan",
+            "ras": "Persia",
+            "deskripsi": "Kucing manja dan suka dipeluk. Cocok untuk keluarga dengan anak-anak."
+        },
+        "Milo": {
+            "usia": "18 bulan",
+            "ras": "Anggora",
+            "deskripsi": "Aktif dan suka bermain. Membutuhkan ruang luas untuk eksplorasi."
+        },
+        "Leo": {
+            "usia": "20 bulan",
+            "ras": "Maine Coon",
+            "deskripsi": "Tenang dan penyayang. Sering tidur siang dan senang disisir bulunya."
+        },
+        "Bella": {
+            "usia": "13 bulan",
+            "ras": "Ragdoll",
+            "deskripsi": "Ceria dan lincah. Sangat ramah dengan manusia maupun hewan lain."
+        }
+    }
+
+    data = kucing_dict.get(nama_kucing)
+
+    if not data:
+        return "Kucing tidak ditemukan", 404
+
+    kucing_data = {
+        "nama": nama_kucing,
+        "usia": data["usia"],
+        "ras": data["ras"],
+        "deskripsi": data["deskripsi"]
+    }
+
+    return render_template("konfirmasi.html", kucing=kucing_data)
+
+
+@app.route('/konfirmasi-adopsi', methods=['POST'])
+def konfirmasi_adopsi():
+    nama_kucing = request.form.get('nama_kucing')
+    nama_pengadopsi = request.form.get('nama_pengadopsi')
+    alamat_pengadopsi = request.form.get('alamat_pengadopsi')
+    kontak_pengadopsi = request.form.get('kontak_pengadopsi')
+    print(f"Pengajuan adopsi untuk {nama_kucing} oleh {nama_pengadopsi}")
+    print(f"Alamat: {alamat_pengadopsi}, Kontak: {kontak_pengadopsi}")
+
+    flash(f'Pengajuan adopsi untuk {nama_kucing} berhasil diajukan!', 'success')
+    return redirect(url_for('index'))
 
 # Logout
 @app.route('/logout')

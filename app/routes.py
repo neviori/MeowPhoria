@@ -14,9 +14,13 @@ def gallery():
 def about():
     return render_template("booking.html")
 
-@main.route("/adopt")
+@main.route("/adopsi")
 def adopt():
-    return render_template("adopt.html")
+    return render_template("adopsi.html")
+
+@main.route("/konfirmasi")
+def adopt():
+    return render_template("konfirmasi.html")
 
 @main.route("/whishkermatch")
 def whiskermatch():

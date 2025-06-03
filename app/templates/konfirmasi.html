@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ajukan Adopsi - {{ kucing.nama }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body
+  class="min-h-screen bg-cover bg-center bg-fixed"
+  style="background-image: url('https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1350&q=80');"
+>
+  <div class="backdrop-blur-md bg-white/80 p-8 rounded-xl m-4 shadow-lg max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-center text-pink-600 mb-6">
+      Formulir Adopsi - {{ kucing.nama }}
+    </h1>
+
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <p>Nama: {{ kucing.nama }}</p>
+      <p>Usia: {{ kucing.usia }}</p>
+      <p>Ras: {{ kucing.ras }}</p>
+      <p>Deskripsi: {{ kucing.deskripsi }}</p>
+
+      <form action="{{ url_for('konfirmasi_adopsi') }}" method="POST" class="space-y-4">
+    <input type="hidden" name="nama_kucing" value="{{ kucing.nama }}"/>
+
+        <div>
+          <label class="block font-semibold text-pink-700">Nama Lengkap Anda</label>
+          <input
+            type="text"
+            name="nama_pengadopsi"
+            required
+            class="w-full mt-1 p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
+          />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-pink-700">Alamat</label>
+          <textarea
+            name="alamat_pengadopsi"
+            required
+            rows="3"
+            class="w-full mt-1 p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-pink-700">Kontak (HP / Email)</label>
+          <input
+            type="text"
+            name="kontak_pengadopsi"
+            required
+            class="w-full mt-1 p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
+          />
+        </div>
+
+        <div class="pt-4">
+          <button
+            type="submit"
+            class="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-xl"
+          >
+            Konfirmasi Adopsi
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
