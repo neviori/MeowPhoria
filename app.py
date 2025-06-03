@@ -2,6 +2,8 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, f
 import os
 from flask_sqlalchemy import SQLAlchemy
 from app.services.matchService import calculate_breed_score
+from models import db, Service, Package
+from perawatanroutes import perawatan_bp
 
 db = SQLAlchemy()
 
@@ -9,8 +11,71 @@ app = Flask(__name__,
             static_folder='app/static',
             template_folder='app/templates')
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///perawatan_kucing.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'meow_secret_key')
+
+def initialize_data(app):
+    """Fungsi untuk menginisialisasi data awal jika belum ada."""
+    with app.app_context():
+        
+        if not Service.query.first():
+            print("Database kosong atau belum terisi. Memulai inisialisasi data...")
+            db.drop_all() 
+            db.create_all()
+
+            # Tambahkan Layanan
+            grooming_service = Service(name='Grooming')
+            vaksin_service = Service(name='Vaksin')
+            penitipan_service = Service(name='Penitipan')
+
+            db.session.add_all([grooming_service, vaksin_service, penitipan_service])
+            db.session.commit()
+            print("Layanan ditambahkan.")
+
+            # Tambahkan Paket Grooming
+            db.session.add_all([
+                Package(service=grooming_service, name='Paket Basic', price=50000.0,
+                        description='Mandi Kucing, Pengeringan & Penyisiran Bulu, Pembersihan Telinga, Pemotongan Kuku'),
+                Package(service=grooming_service, name='Paket Premium', price=100000.0,
+                        description='Semua Layanan Paket Basic, Pembersihan Kelenjar Anal, Pemberian Parfum Khusus, Anti Kutu, Potong Bulu'),
+                Package(service=grooming_service, name='Paket Styling', price=170000.0,
+                        description='Semua Layanan Paket Premium, Potong Bulu Model, Styling Ekor/Telinga, Aksesoris (Bandana/Ribbon), Foto After Grooming')
+            ])
+            db.session.commit()
+            print("Paket Grooming ditambahkan.")
+
+            # Tambahkan Paket Vaksin
+            db.session.add_all([
+                Package(service=vaksin_service, name='Vaksin Colostrum', price=80000.0,
+                        description='Fungsi: Memberi antibodi awal lewat kolostrum; Usia: Baru lahir sampai 4 minggu'),
+                Package(service=vaksin_service, name='Vaksin Neonatal', price=100000.0,
+                        description='Fungsi: Vaksin untuk anak kucing sangat muda; Usia: 4–6 minggu'),
+                Package(service=vaksin_service, name='Vaksin Tricat', price=150000.0,
+                        description='Fungsi: Melindungi dari Panleukopenia, Calicivirus, Rhinotracheitis; Usia: 8 minggu'),
+                Package(service=vaksin_service, name='Vaksin Tetracat', price=200000.0,
+                        description='Fungsi: Tricat + perlindungan terhadap Chlamydia; Usia: 12 minggu ke atas'),
+                Package(service=vaksin_service, name='Vaksin Rabies', price=100000.0,
+                        description='Fungsi: Pencegahan penyakit rabies; Usia: Minimal 12 minggu')
+            ])
+            db.session.commit()
+            print("Paket Vaksin ditambahkan.")
+
+            # Tambahkan Paket Penitipan
+            db.session.add_all([
+                Package(service=penitipan_service, name='Penitipan Harian', price=40000.0,
+                        description='Kandang bersih & nyaman, Makan 2x sehari (bisa bawa sendiri), Pembersihan litter box, Update foto/video via WhatsApp'),
+                Package(service=penitipan_service, name='Penitipan Mingguan', price=250000.0,
+                        description='Semua layanan Paket Harian, Grooming ringan 1x, Bermain & interaksi harian, Update harian via WhatsApp'),
+                Package(service=penitipan_service, name='Penitipan Bulanan', price=900000.0,
+                        description='Semua layanan Paket Mingguan, Grooming mingguan, Pemantauan kesehatan dasar, Laporan & foto/video berkala via WhatsApp')
+            ])
+            db.session.commit()
+            print("Paket Penitipan ditambahkan.")
+            print("Database berhasil diinisialisasi dengan data sampel.")
+        else:
+            print("Database sudah berisi data. Melewatkan inisialisasi data.")
 
 from app.routes import main
 app.register_blueprint(main)
@@ -29,7 +94,9 @@ users = {}
 # Halaman utama
 @app.route('/')
 def index():
-    return render_template('home.html')
+     if 'username' in session:
+         return render_template('home.html')
+     return redirect(url_for('auth_login'))
 
 # Login dummy (admin only)
 @app.route('/login', methods=['GET', 'POST'])
@@ -67,6 +134,18 @@ def register():
             flash('Akun berhasil dibuat! Silakan login ya, meow 😸', 'info')
             return redirect(url_for('auth_login'))
     return render_template('register.html')
+#whisker match 
+@app.route('/WhiskerMatch')
+@app.route('/whiskermatch')
+def whisker_match():
+    return render_template('whiskermatch.html')
+
+@app.route('/perawatan')
+def perawatan():
+    return render_template('perawatan.html')
+@app.route('/booking')
+def booking():
+    return render_template('booking.html')
 
 # Whisker Match page
 @app.route('/whiskermatch', methods=['GET', 'POST'])
@@ -146,4 +225,9 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+        initialize_data(app)
     app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
