@@ -1,0 +1,491 @@
+<!-- WhiskerMatch -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhiskerMatch!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pixel+Font&display=swap" rel="stylesheet">
+    <style>
+        .app-header {
+            position: fixed;
+            height: 60px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #5f0924;
+            color: #ffae42;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .highlight {
+            color: orange;
+        }
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)),
+                url('/static/img/Local%20Stray.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Fredoka One', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: auto;
+        }
+        h1 {
+            color: #f3a7d5;
+            margin-bottom: 20px;
+        }
+        body {
+            margin: 0;
+            font-family: 'Fredoka One', cursive, sans-serif;
+            background-color: #292e37;
+        }
+
+        .header {
+        background-color: #3d1a57;
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #eb46bc;
+        font-size: 23px;
+        font-weight: bold;
+        font-family: 'Courier New', monospace;
+        }
+
+        .highlight {
+        color: #eb46bc;
+        }
+
+        .home-button {
+            background-color: transparent;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #e0bcb3;
+            border: 2px solid #d2985a;
+            border-radius: 12px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .home-button:hover {
+            color: #96441e;
+        }
+        .main-card {
+            background-color: #F6EFEA;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        h1.quiz-title {
+            color: #91453b;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        
+        #start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(234, 218, 204, 0.716);
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 30px;
+            min-width: 800px;
+            min-height: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            gap: 1px;
+        }
+        #start-screen h1 {
+            margin-bottom: 4px;
+        }
+        #start-screen p {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        #start-screen input[type="text"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: 'Pixel Font', cursive;
+            font-size: 16px;
+            border: 2px solid #6b5876;
+            border-radius: 10px;
+            width: 300px;
+            max-width: 400px;
+            flex-direction: column;
+        }
+        #start-screen .button {
+            padding: 10px 20px;
+            background-color: #c3567a;
+            border: none;
+            border-radius: 6px;
+            width: 320px;
+            max-width: 400px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .subtitle {
+        font-size: 14px;
+        color: #5c3b2e;
+        }
+        .quiz-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        #animation-container {
+            width: 130px;
+            height: auto;
+            z-index: 500;
+        }
+        #animation-container img {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+        #animation-container img.active {
+            display: block;
+        }
+        .question-container {
+            background-color: rgba(241, 232, 224, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 2px solid #7d4747;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            min-height: 400px;
+            margin-bottom: 20px;
+        }
+        .question-container.active {
+            display: flex;
+        }
+        .question {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;
+            color: #3d1a57
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 3px; 
+            width: 300px;
+            max-width: 600px;
+        }
+        
+        .button {
+            background-color: #d690a7;
+            border: none;
+            color: white;
+            width: 300px;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #bb4c80;
+        }
+        #result-container {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff0f5;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        #result-container h2 {
+            color: #6e5b9f;
+            font-size: 22px;
+            font-family: 'Pixel Font', cursive;
+        }
+        #result-container p {
+            font-size: 16px; 
+            font-family: 'Pixel Font', cursive; 
+            color: #3d1a57;
+            line-height: 1.5;
+        }
+        #result-container img.matched-cat-image {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+&nbsp;
+&nbsp;
+    <header class="app-header">
+        <h1><span class="highlight">Whisker</span>Match!</h1>
+        <button class="home-button" onclick="window.location.href='/'">Home</button>
+    </header>
+    
+        <div id="start-screen">
+            <h1 class="quiz-title">WhiskerMatch!</h1>
+                <p class="subtitle">Temukan teman berbulu mu di Meowgical Cat's Euphoria</p>
+            <input type="text" id="userName" placeholder="Ketik namamu di sini..." required>
+            <button class="button" id="startButton">Match Meow!</button>
+
+        </div>
+        <div class="quiz-container">
+
+        <div class="question-container">
+            <div class="question">Bagaimana lingkungan tempat tinggamu?</div>
+            <div class="buttons-container">
+                <button class="button">Ramai</button>
+                <button class="button">Tenang</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Berapa banyak waktu luang yang kamu miliki untuk bermain setiap hari?</div>
+            <div class="buttons-container">
+                <button class="button">Banyak</button>
+                <button class="button">Sedikit</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apakah kamu punya pengalaman merawat kucing sebelumnya?</div>
+            <div class="buttons-container">
+                <button class="button">Punya</button>
+                <button class="button">Belum</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apakah ada anak kecil atau hewan peliharaan lain di rumah?</div>
+            <div class="buttons-container">
+                <button class="button">Ada</button>
+                <button class="button">Tidak Ada</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apa yang ingin kamu lakukan bersama kucingmu?</div>
+            <div class="buttons-container">
+                <button class="button">Bermain</button>
+                <button class="button">Peluk</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Bagaimana sifat kucing yang kamu suka?</div>
+            <div class="buttons-container">
+                <button class="button">Aktif</button>
+                <button class="button">Tenang</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apakah kamu alergi terhadap bulu?</div>
+            <div class="buttons-container">
+                <button class="button">Iya</button>
+                <button class="button">Tidak</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apa kamu tinggal di apartemen(ruang terbatas) atau tempat yang luas?</div>
+            <div class="buttons-container">
+                <button class="button">Ruang terbatas</button>
+                <button class="button">Tempat yang luas</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apa kamu lebih suka kalau kucingmu mengikutimu dan bermanja denganmu?</div>
+            <div class="buttons-container">
+                <button class="button">Ya, tentu</button>
+                <button class="button">Tidak terlalu</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apa kamu tertantang untuk melatih kucingmu?</div>
+            <div class="buttons-container">
+                <button class="button">Ya, aku suka tantangan</button>
+                <button class="button">Aku tidak pandai melatih</button>
+            </div>
+        </div>
+        <div class="question-container">
+            <div class="question">Apa kamu suka curhat atau ajak kucingmu mengobrol?</div>
+            <div class="buttons-container">
+                <button class="button">Iyaaa</button>
+                <button class="button">Tidak terlalu</button>
+            </div>
+        </div>
+                <div class="question-container">
+        </div>
+
+        <div id="result-container" style="display: none;">
+        </div>
+
+        <div id="animation-container">
+            <img src="{{ url_for('static', filename='img/pixil-layer-0.png') }}" alt="Animation Frame 1">
+            <img src="{{ url_for('static', filename='img/pixil-layer-1.png') }}" alt="Animation Frame 2">
+            <img src="{{ url_for('static', filename='img/pixil-layer-2.png') }}" alt="Animation Frame 3">
+            <img src="{{ url_for('static', filename='img/pixil-layer-3.png') }}" alt="Animation Frame 4">
+        </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startScreen = document.getElementById('start-screen');
+            const quizContainer = document.querySelector('.quiz-container');
+            const startButton = document.getElementById('startButton');
+            const userNameInput = document.getElementById('userName');
+
+            const animationContainer = document.getElementById('animation-container');
+            const frames = animationContainer.querySelectorAll('img');
+            let currentFrame = 0;
+            const animationSpeed = 125; // Milliseconds for frame change and movement update
+            const movementStep = 7; // Pixels to move left per update
+
+            let userName = ''; // Untuk menyimpan nama pengguna
+
+            function setupAnimationContainer() {
+            if (!animationContainer) return;
+            animationContainer.style.position = 'fixed';
+            animationContainer.style.bottom = '10px'; // Adjust as needed
+            // Start off-screen to the right. Add a little buffer.
+            animationContainer.style.left = (window.innerWidth + 50) + 'px'; 
+            animationContainer.style.visibility = 'visible'; // Make it visible once styled
+        }
+
+        function animateCat() {
+            if (frames.length === 0 || !animationContainer) return;
+
+            // Cycle through frames
+            frames.forEach(frame => frame.classList.remove('active'));
+            currentFrame = (currentFrame + 1) % frames.length;
+            const activeFrame = frames.item(currentFrame);
+            if (activeFrame) {
+                activeFrame.classList.add('active');
+            }
+
+            let currentLeft = parseFloat(animationContainer.style.left);
+            let newLeft = currentLeft - movementStep;
+
+            if (newLeft < -animationContainer.offsetWidth) {
+                newLeft = window.innerWidth + 50;
+            }
+            animationContainer.style.left = newLeft + 'px';
+
+            setTimeout(animateCat, animationSpeed);
+            }
+            if (frames.length > 0) {
+                setupAnimationContainer(); // Initial setup of container style for movement
+                if (frames.item(0)) {
+                    frames.item(0).classList.add('active'); // Show first frame
+                }
+                animateCat(); 
+            }
+            const questions = quizContainer.querySelectorAll('.question-container');
+            const resultContainer = document.getElementById('result-container');
+            const userAnswers = [];
+            let currentQuestionIndex = 0;
+
+            startButton.addEventListener('click', () => {
+                userName = userNameInput.value.trim();
+                if (userName === "") {
+                    alert("Mohon isi namamu terlebih dahulu ya! 😊");
+                    return;
+                }
+                startScreen.style.display = 'none';
+                quizContainer.style.display = 'flex';
+                showQuestion(0);
+            });
+
+            function showQuestion(index) {
+                
+                questions.forEach(q => q.classList.remove('active'));
+                // loadingMessageContainer.classList.remove('active'); 
+                if (index >= questions.length -1) { 
+                    if (questions[index]) questions[index].classList.remove('active');
+                    resultContainer.style.display = 'none'; // Sembunyikan hasil sebelumnya jika ada
+
+                    fetch('/submit_answers', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name: userName, answers: userAnswers })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        resultContainer.style.display = 'block';
+                        
+                        if (data.error) {
+                             resultContainer.innerHTML = `<h2 style="color: #cc0000;">Oops! Terjadi Kesalahan</h2><p>${data.error}</p>`;
+                        } else if (data.cat_name) {
+                            resultContainer.innerHTML = `
+                                <h2>Hai ${userName}! Ini Jodoh Kucingmu: ${data.cat_name}</h2>
+                                <img src="${data.cat_image_url}" alt="${data.cat_name}" class="matched-cat-image">
+                                <p><strong>Kepribadian:</strong> ${data.cat_personality}</p>
+                                <p>${data.message || ''}</p> `;
+                        } else {
+                             resultContainer.innerHTML = `<h2 style="color: #6e5b9f;">Hasil Tidak Ditemukan</h2><p>Maaf, kami tidak dapat menemukan rekomendasi saat ini.</p>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Gagal mengirim atau memproses data:', error);
+                        resultContainer.style.display = 'block';
+                        resultContainer.innerHTML = `<h2 style="color: #cc0000;">Oops! Terjadi Kesalahan</h2><p>Tidak dapat terhubung ke server atau mengambil data. Silakan coba lagi nanti. (${error.message})</p>`;
+                    });
+                    return;
+                }
+
+                const currentQuestion = questions[index];
+                if (currentQuestion) {
+                    currentQuestion.classList.add('active');
+
+                    const buttons = currentQuestion.querySelectorAll('.button');
+                    buttons.forEach(button => {
+                        const newButton = button.cloneNode(true); // Untuk menghindari event listener ganda
+                        button.parentNode.replaceChild(newButton, button);
+
+                        newButton.addEventListener('click', (event) => {
+                            const questionText = currentQuestion.querySelector('.question').innerText;
+                            const answerText = event.target.innerText;
+                            userAnswers.push({ question: questionText, answer: answerText });
+                            showQuestion(index + 1); // Pindah ke pertanyaan berikutnya
+                        }, { once: true });
+                    });
+                } else {
+                    console.error("Elemen pertanyaan tidak ditemukan pada indeks:", index);
+                    fetch('/submit_answers');
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

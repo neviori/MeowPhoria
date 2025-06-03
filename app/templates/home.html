@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meowphoria</title>
+  <link rel="icon" href="https://img.pikbest.com/png-images/20250120/a-cat-logoit-is-beautiful-cute-nice-happy-vector-illustration-animal-logo-icon_11422048.png!sw800" type="image/png">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fce4ec;
+      color: #333;
+    }
+
+    header {
+      background-color: #fff0f6;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #f8bbd0;
+      flex-wrap: wrap;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    header img {
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #880e4f;
+    }
+
+    .nav-top {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .nav-top a {
+      text-decoration: none;
+      color: #d81b60;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .nav-top a:hover {
+      text-decoration: underline;
+    }
+
+    .logout {
+      margin-top: 10px;
+    }
+
+    .btn-logout {
+      padding: 8px 16px;
+      background:rgb(248, 75, 150);
+      color:rgb(140, 20, 110);
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-logout:hover {
+      background:rgb(243, 5, 144);
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .emoji {
+      font-size: 60px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #c2185b;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin: 40px auto;
+      max-width: 700px;
+    }
+
+    .feature {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .feature div {
+      font-size: 30px;
+    }
+
+    .feature h3 {
+      margin: 10px 0 5px;
+      color: #ad1457;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      padding: 20px;
+      background-color: #fce4ec;
+      color: #8e24aa;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .logout {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="https://img.pikbest.com/png-images/20250120/a-cat-logoit-is-beautiful-cute-nice-happy-vector-illustration-animal-logo-icon_11422048.png!sw800" alt="Meow Logo">
+      <span class="logo-text">Meowphoria</span>
+    </div>
+    <div class="nav-top">
+      <a href="/">Home</a>
+      <a href="/WhiskerMatch">WhiskerMatch</a>
+      <a href="/Perawatan">Perawatan</a>
+      <a href="/Adopsi">Adopsi</a>
+    </div>
+    <div class="logout">
+      <a href="/logout" class="btn-logout">Logout</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="emoji">🐾</div>
+    <h1>Selamat Datang di Meowphoria!</h1>
+    <p>Hai, {{ session['user'] }}! Yuk jelajahi fitur-fitur meowgical kami.</p>
+
+    <div class="promo-banner">
+  <img src="/static/img/kucing.jpg" alt="Promo Kucing" class="promo-img">
+  <div class="promo-text">
+    <h2>Temukan Si Meow Favorit kamu!</h2>
+    <p>Kucing higienis, dan sehat . Yuk cek koleksi eksklusif kami!</p>
+    <a href="/Adopsi" class="promo-btn">Lihat Koleksi</a>
+  </div>
+</div>
+
+
+    <div class="features">
+      <div class="feature">
+        <div>🔐</div>
+        <h3>Aman</h3>
+        <p>Login & data terjaga</p>
+      </div>
+      <div class="feature">
+        <div>⚡</div>
+        <h3>Cepat</h3>
+        <p>Responsif & ringan</p>
+      </div>
+      <div class="feature">
+        <div>🐱</div>
+        <h3>Cute</h3>
+        <p>kucing disini lucu lucu!</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Meowphoria. Meow your world.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meow App{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😸</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh; color: #333;
+        }
+        .navbar, .footer {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0; box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .nav-container, .container {
+            max-width: 1200px; margin: auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-brand { font-size: 1.5rem; font-weight: 700; color: #333; text-decoration: none; display: flex; align-items: center; }
+        .nav-brand .emoji { margin-right: 10px; font-size: 1.8rem; }
+        .nav-links { list-style: none; display: flex; gap: 20px; }
+        .nav-links a {
+            text-decoration: none; color: #333; font-weight: 500;
+            padding: 8px 16px; border-radius: 6px;
+        }
+        .nav-links a:hover { background: rgba(102,126,234,0.1); color: #667eea; }
+        .nav-user { display: flex; align-items: center; gap: 10px; }
+        .user-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; padding: 6px 15px; border-radius: 20px;
+        }
+        .flash-message {
+            margin: 1rem auto; padding: 1rem; border-radius: 8px;
+            display: flex; align-items: center; gap: 10px;
+            max-width: 1200px; animation: slideInDown 0.5s ease;
+        }
+        .flash-message.error { background: #fee2e2; color: #dc2626; }
+        .flash-message.info { background: #dbeafe; color: #1d4ed8; }
+        .flash-message.success { background: #d1fae5; color: #059669; }
+        .flash-message.warning { background: #fef3c7; color: #d97706; }
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card {
+            background: white; border-radius: 15px; padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 20px 0;
+            position: relative; overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 4px; background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        .btn {
+            padding: 10px 20px; border: none; border-radius: 6px;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52); color: white;
+        }
+        .form-control {
+            width: 100%; padding: 12px; border: 2px solid #e9ecef;
+            border-radius: 8px; font-size: 1rem;
+        }
+        .form-control:focus {
+            border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+            outline: none;
+        }
+        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: white; }
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .nav-container { position: relative; }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><span class="emoji">😸</span>Meow App</a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">🏠 Home</a></li>
+                {% if session.username %}
+                    <li><a href="/dashboard">📊 Dashboard</a></li>
+                    <li><a href="/profile">👤 Profile</a></li>
+                {% else %}
+                    <li><a href="/auth/login">🚪 Login</a></li>
+                    <li><a href="/auth/register">📝 Register</a></li>
+                {% endif %}
+            </ul>
+            {% if session.username %}
+            <div class="nav-user">
+                <span class="user-info">👋 {{ session.username }}</span>
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {% if category == 'error' %}❌{% elif category == 'info' %}ℹ️{% elif category == 'success' %}✅{% elif category == 'warning' %}⚠️{% endif %}
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Made with ❤️ and lots of meow 🐱</p>
+            <p>&copy; 2024 Meow App</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const navLinks = document.getElementById('navLinks');
+            const btn = document.querySelector('.mobile-menu-btn');
+            if (!navLinks.contains(e.target) && !btn.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.flash-message').forEach(msg => {
+                setTimeout(() => {
+                    msg.style.opacity = '0';
+                    msg.style.transform = 'translateY(-20px)';
+                    setTimeout(() => msg.remove(), 300);
+                }, 5000);
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
